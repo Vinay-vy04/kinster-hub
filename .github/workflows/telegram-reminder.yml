@@ -11,7 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Telegram Message
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="🌅 Good morning! It's time to check Kinster Hub for today's high-impact tasks. Don't forget to review the pulse score!"
+          curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
+          -H "Content-Type: application/json" \
+          -d "{\"chat_id\": \"$CHAT_ID\", \"text\": \"🌅 Good morning! It is time to check Kinster Hub for today's high-impact tasks. Don't forget to review the pulse score!\"}"
