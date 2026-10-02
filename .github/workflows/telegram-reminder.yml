@@ -1,0 +1,17 @@
+name: Daily Telegram Reminder
+
+on:
+  schedule:
+    # Runs at 2:30 AM UTC daily, which is 8:00 AM IST
+    - cron: '30 2 * * *'
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram Message
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="🌅 Good morning! It's time to check Kinster Hub for today's high-impact tasks. Don't forget to review the pulse score!"
